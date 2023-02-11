@@ -29,11 +29,16 @@ function App() {
       method: 'POST',
       body: formData,
     };
-    fetch('http://127.0.0.1:8000/predict', requestOptions)
+    fetch(
+      'https://ec2-3-110-208-165.ap-south-2.compute.amazonaws.com/predict',
+      requestOptions
+    )
       .then((response) => response.json())
       .then((data) => {
         setPrediction(data.result);
-        console.log(data);
+      })
+      .catch(() => {
+        alert('Internal Server Error. Please try again later.');
       });
   };
 
