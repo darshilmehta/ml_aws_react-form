@@ -30,7 +30,7 @@ function App() {
       body: formData,
     };
     fetch(
-      'https://ec2-3-110-208-165.ap-south-2.compute.amazonaws.com/predict',
+      'https://ec2-3-110-208-165.ap-south-1.compute.amazonaws.com/predict',
       requestOptions
     )
       .then((response) => response.json())
