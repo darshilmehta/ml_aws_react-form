@@ -5,8 +5,16 @@ function App() {
   const [file, setFile] = useState(null);
   const [imageURL, setImageURL] = useState(null);
   const [prediction, setPrediction] = useState(null);
+  const [confidence, setConfidence] = useState(null);
 
   const imageRef = useRef();
+
+  const labelToImplant = {
+    0: 'Depuy Mobility',
+    1: 'Stryker Start',
+    2: 'Wright Inbone II',
+    3: 'Zimmer Biomet Trabecular Model',
+  };
 
   const uploadImage = (e) => {
     setPrediction(null);
@@ -29,13 +37,13 @@ function App() {
       method: 'POST',
       body: formData,
     };
-    fetch(
-      'https://ec2-3-110-208-165.ap-south-1.compute.amazonaws.com/predict',
-      requestOptions
-    )
+    // 'https://ec2-3-110-208-165.ap-south-1.compute.amazonaws.com/predict';
+    const url = 'http://localhost:8000/predict/';
+    fetch(url, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         setPrediction(data.result);
+        setConfidence(data.confidence);
       })
       .catch(() => {
         alert('Internal Server Error. Please try again later.');
@@ -60,7 +68,7 @@ function App() {
       </Box>
       {file && (
         <Box mt={50}>
-          <div style={{ width: '30%', marginLeft: '35%' }}>
+          <div style={{ width: '20%', marginLeft: '40%' }}>
             <img
               src={imageURL}
               alt="User Upload Preview"
@@ -71,14 +79,16 @@ function App() {
           </div>
         </Box>
       )}
-      {prediction && (
+      {prediction && confidence && (
         <Box mt={50}>
           <Text size="lg" align="center">
-            Label - {prediction}
+            Predicted implant is <b>{labelToImplant[prediction]}</b>.
+          </Text>
+          <Text size="lg" align="center">
+            Confidence - {confidence} %
           </Text>
         </Box>
       )}
-
       {file && (
         <Box mt={50} mb={50}>
           <Button w="30%" ml="35%" onClick={handlePredict}>
