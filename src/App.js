@@ -11,7 +11,7 @@ function App() {
 
   const labelToImplant = {
     0: 'Depuy Mobility',
-    1: 'Stryker Start',
+    1: 'Stryker Star',
     2: 'Wright Inbone II',
     3: 'Zimmer Biomet Trabecular Model',
   };
@@ -43,7 +43,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setPrediction(data.result);
-        setConfidence(data.confidence);
+        setConfidence(parseFloat(data.confidence).toFixed(2) * 100);
       })
       .catch(() => {
         alert('Internal Server Error. Please try again later.');
@@ -54,7 +54,7 @@ function App() {
     <Container mt={50}>
       <Box mt={50}>
         <Text size="xl" align="center">
-          Ankle Fracture Detection
+          Ankle Implant Identification
         </Text>
       </Box>
       <Box mt={50}>
